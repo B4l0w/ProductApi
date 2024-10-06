@@ -63,5 +63,28 @@ namespace ProductApi.Controllers
 
             return result;
         }
+
+        [HttpPut]
+
+        public Product Put(Guid Id, string NewName, int NewPrice) 
+        {
+            conn.Connection.Open();
+            DateTime CreatedTime = DateTime.Now;
+
+            string sql = $"UPDATE `products` SET `Name`='{NewName}', `Price` = {NewPrice}, WHERE `Id` = '{Id}'";
+            MySqlCommand cmd = new MySqlCommand(sql, conn.Connection);
+            cmd.ExecuteNonQuery();
+            conn.Connection.Close();
+
+            var result = new Product
+            {
+                Id = Id,
+                Name = NewName,
+                Price = NewPrice,
+                CreatedTime = DateTime.Now
+            };
+
+            return result; 
+        }
     }
 }
