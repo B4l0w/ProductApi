@@ -38,6 +38,30 @@ namespace ProductApi.Controllers
             conn.Connection.Close();
 
             return products;
+
+        }
+        [HttpPost]
+        public Product Post(string Name, int Price)
+        {
+            conn.Connection.Open();
+            Guid Id = Guid.NewGuid();
+            DateTime CreatedTime = DateTime.Now;
+
+            string sql = $"INSERT INTO `products` (`Id`, `Name`, `Price`, `CreatedTime`) VALUES ('{Id}','{Name}',{Price},'{CreatedTime.ToString("yyyy-MM-dd HH:mm:ss")}')";
+            MySqlCommand cmd = new MySqlCommand(sql, conn.Connection);
+            cmd.ExecuteNonQuery();
+
+            conn.Connection.Close();
+
+            var result = new Product
+            {
+                Id = Id,
+                Name = Name,
+                Price = Price,
+                CreatedTime = DateTime.Now
+            };
+
+            return result;
         }
     }
 }
