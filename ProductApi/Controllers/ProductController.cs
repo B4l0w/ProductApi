@@ -86,5 +86,19 @@ namespace ProductApi.Controllers
 
             return result; 
         }
+
+        [HttpDelete]
+
+        public void Delete(Guid Id) 
+        {
+            conn.Connection.Open();
+
+            DateTime CreatedTime = DateTime.Now;
+            string sql = $"DELETE FROM `products` WHERE `Id` = '{Id}'";
+
+            MySqlCommand cmd = new MySqlCommand( sql, conn.Connection);
+            cmd.ExecuteNonQuery();
+            conn.Connection.Close();
+        }
     }
 }
